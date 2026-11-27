@@ -1,26 +1,134 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* FlexiGo Stays design tokens (Phase 2, revised after reviewing StayVista and SaffronStays).
+   Every text/background pair listed passes WCAG AA (4.5:1) unless noted. Use these names, never raw colours. */
+@theme {
+  --color-forest: #1c2b24; /* primary: buttons, headings, active states. White on it: 14.8:1 */
+  --color-forest-soft: #2c4237; /* primary hover. White on it: 10.8:1 */
+  --color-stone: #f8f5f0; /* warm sand: alternate sections and panels */
+  --color-stone-deep: #efeae1; /* deeper sand: trust strip, selected rows */
+  --color-pine: #b8862f; /* gold accent: stars, icons, large text only (3.2:1 on white) */
+  --color-pine-dark: #8a5d1a; /* gold for small text and links (5.7:1 on white) */
+  --color-card: #ffffff;
+  --color-ink: #1f2622; /* body text (15.5:1 on white) */
+  --color-muted: #5c6560; /* secondary text (6.0:1 on white) */
+  --color-line: #e5e0d7; /* borders and dividers (decorative) */
+  --color-chip: #f1f4f2; /* tinted fact chips (forest text on it: 13.4:1) */
+  --color-night: #16201b; /* footer */
+  --color-whatsapp: #1a7f4b; /* 5.0:1 on white */
+  --color-holiday: #1d64c4; /* holidays in the date picker, like StayVista (5.7:1 on white) */
+  --color-holiday-tint: #eaf2fd; /* holiday cards (holiday text on it: 5.1:1) */
+  --color-weekend: #b4232c; /* Sat and Sun headings, date notes (6.5:1 on white) */
+  --color-peach: #f8ece2; /* soft note strip under the search card (ink on it: 14:1) */
+  --color-blush: #f6e3e4; /* right end of the note strip gradient, like StayVista (ink on it: 13.5:1) */
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --radius-card: 1rem;
+  --radius-control: 0.625rem; /* buttons and inputs: 10px, like the reference sites */
+  --shadow-soft: 0 1px 2px rgb(28 43 36 / 0.04), 0 12px 32px -16px rgb(28 43 36 / 0.22);
+  --container-site: 80rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Base styles live in the base layer so Tailwind utility classes (like text-white) can override them. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background: var(--color-card);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    color: var(--color-forest);
+  }
+
+  /* Thin, even line icons everywhere (Lucide), like the outline icons on the reference sites */
+  .lucide {
+    stroke-width: 1.75;
+  }
+
+  ::selection {
+    background: var(--color-stone-deep);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-pine);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Elements revealed by GSAP start visible; the animation script hides them only when motion is allowed. */
+[data-reveal] {
+  will-change: transform, opacity;
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Date picker days get a little shorter on short laptop screens so both months fit */
+@media (min-width: 768px) and (max-height: 920px) {
+  .cal-cell {
+    height: 2.5rem;
+  }
+  .cal-cell > button {
+    width: 2.375rem;
+    height: 2.375rem;
+  }
+}
+
+/* Policy pages: readable lists and links inside the section text */
+.policy-body ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.policy-body li + li {
+  margin-top: 0.5rem;
+}
+.policy-body li::marker {
+  color: var(--color-pine-dark);
+}
+.policy-body a {
+  color: var(--color-forest);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Native date input styled to match */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
