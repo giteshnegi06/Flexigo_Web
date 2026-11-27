@@ -2,7 +2,8 @@
 import { cacheLife } from "next/cache";
 import type { Holiday, HomeCard, HomeDetail, Place, Review, SiteInfo } from "./types";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+// Trailing slashes are removed, so "https://api.example/" does not produce "//api/..." URLs (Vercel redirects those).
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000").trim().replace(/\/+$/, "");
 
 // Pages are built from the API, so a build needs it. Explain the fix instead of failing with "fetch failed".
 const HOW_TO_FIX =

@@ -1,7 +1,9 @@
 // Browser-side calls to the backend: availability, quotes and enquiries. Never cached.
 import type { ApiError, Quote } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+// Trailing slashes are removed, so "https://api.example/" does not produce "//api/..." URLs. Vercel redirects those,
+// and browsers refuse redirects on CORS checks, which would break live prices and booking requests.
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000").trim().replace(/\/+$/, "");
 
 async function send<T>(path: string, init?: RequestInit): Promise<{ ok: true; data: T } | { ok: false; error: ApiError }> {
   try {
