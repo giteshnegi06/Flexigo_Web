@@ -52,7 +52,7 @@ export function DateRangeField({ today, checkIn, checkOut, slug, minNights, holi
 
   // This home's booked nights for the next year, loaded the first time the calendar opens.
   useEffect(() => {
-    if (!open || !today || bookedBySlug[slug]) return;
+    if (!open || !today || !slug || bookedBySlug[slug]) return;
     let live = true;
     fetchAvailability(slug, today, addDaysIso(today, 366)).then((r) => {
       if (live && r.ok) setBookedBySlug((all) => ({ ...all, [slug]: r.data.booked }));

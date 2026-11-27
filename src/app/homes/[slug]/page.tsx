@@ -67,7 +67,8 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
     <article className="mx-auto max-w-site px-4 pb-28 pt-20 sm:px-6 lg:px-8 lg:pb-10 lg:pt-28">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted">
-        <Link href="/" className="hover:text-forest">Home</Link> / <Link href="/#homes" className="hover:text-forest">The homes</Link> / <span className="text-forest">{home.name}</span>
+        {/* "Home / Homes / ..." read as the same word twice, so the trail starts at the list of homes. */}
+        <Link href="/#homes" className="hover:text-forest">Homes</Link> / <span className="text-forest">{home.name}</span>
       </nav>
       <PhotoTour photos={home.photos} name={home.name} />
 

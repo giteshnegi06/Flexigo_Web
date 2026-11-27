@@ -5,12 +5,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Check, MapPinned, Plane, Users } from "lucide-react";
+
+// The badge icon says what the badge is about: guests for a home, a map for the guide, a plane for trips.
+const badgeIcons = { guests: Users, guide: MapPinned, trips: Plane };
 
 export type CollectionItem = {
   key: string;
   title: string;
   badge: string;
+  badgeIcon: keyof typeof badgeIcons;
   points: string[];
   image: string;
   href: string;
@@ -31,16 +35,17 @@ function PanelLink({ item, children, className, onActivate }: { item: Collection
 }
 
 function Details({ item, visible }: { item: CollectionItem; visible: boolean }) {
+  const BadgeIcon = badgeIcons[item.badgeIcon];
   return (
     <div className={`absolute inset-x-0 bottom-0 p-6 transition-[opacity,transform] duration-500 ease-out ${visible ? "translate-y-0 opacity-100 delay-200" : "pointer-events-none translate-y-4 opacity-0"}`}>
       <span className="inline-flex items-center gap-1.5 rounded-md bg-black/55 px-2.5 py-1 text-xs font-semibold text-pine backdrop-blur-sm">
-        <Sparkles size={13} aria-hidden /> {item.badge}
+        <BadgeIcon size={13} aria-hidden /> {item.badge}
       </span>
       <p className="mt-3 font-display text-3xl text-white">{item.title}</p>
       <ul className="mt-3 space-y-1.5">
         {item.points.map((p) => (
           <li key={p} className="flex items-start gap-2 text-[0.95rem] font-medium text-white/95">
-            <span className="mt-0.5 text-pine" aria-hidden>✦</span> {p}
+            <Check size={16} strokeWidth={2.5} className="mt-1 shrink-0 text-pine" aria-hidden /> {p}
           </li>
         ))}
       </ul>

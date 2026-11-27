@@ -9,14 +9,13 @@ type Option = { slug: string; name: string; maxGuests: number; nightlyPrice: num
 export function BookFromSearch({ homes, whatsappNumber, holidays }: { homes: Option[]; whatsappNumber: string; holidays: Holiday[] }) {
   const q = useSearchParams();
   const guests = Number(q.get("guests") ?? 2);
+  // Only what the guest chose in the search is filled in; with no home or dates, the card starts empty.
   const wanted = q.get("home") ?? undefined;
-  // With no home chosen, suggest the smallest home that fits the group.
-  const fit = homes.filter((h) => h.maxGuests >= guests).sort((a, b) => a.maxGuests - b.maxGuests)[0];
   return (
     <BookingPanel
       key={q.toString()}
       homes={homes}
-      initialSlug={wanted ?? fit?.slug}
+      initialSlug={wanted}
       initialIn={q.get("in") ?? undefined}
       initialOut={q.get("out") ?? undefined}
       initialGuests={Number.isFinite(guests) && guests > 0 ? guests : 2}

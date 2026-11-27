@@ -57,6 +57,7 @@ export default async function HomePage() {
                 key: h.slug,
                 title: h.name,
                 badge: `Up to ${h.maxGuests} guests · ${h.bedrooms} bedrooms`,
+                badgeIcon: "guests" as const,
                 points: h.highlights.slice(0, 4),
                 image: h.coverPhoto,
                 href: `/homes/${h.slug}`,
@@ -65,6 +66,7 @@ export default async function HomePage() {
                 key: "guide",
                 title: "Shimla guide",
                 badge: "Plan your days",
+                badgeIcon: "guide",
                 points: places.slice(0, 4).map((p) => p.name),
                 image: heroPhoto.src,
                 href: "/guide",
@@ -73,6 +75,7 @@ export default async function HomePage() {
                 key: "trips",
                 title: "Trips and cabs",
                 badge: "By Flexigo Holidays",
+                badgeIcon: "trips",
                 points: ["Day trips to Kufri and Mashobra", "Station and airport pickups", "Himachal, Kashmir and Ladakh tours", "Planned by a local team"],
                 image: "https://www.flexigoholidays.com/assets/img/manali-img/2.webp",
                 href: "https://www.flexigoholidays.com/",
@@ -84,7 +87,7 @@ export default async function HomePage() {
       </section>
 
       <section id="homes" className="mx-auto max-w-site scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8 lg:py-28" aria-labelledby="homes-title">
-        <SectionHeading eyebrow="The homes" title="Choose your home and see prices" id="homes-title">
+        <SectionHeading eyebrow="Homes" title="Choose your home and see prices" id="homes-title">
           Each home is fully equipped and looked after by a team that stays close by.
         </SectionHeading>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

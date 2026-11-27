@@ -1,7 +1,7 @@
 "use client";
 // Booking card: dates and guests, a live quote from the backend, then an enquiry form.
 // Used beside the content on a home's page (sticky on computers) and on the /book page.
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import { CalendarCheck, Loader2 } from "lucide-react";
@@ -63,20 +63,24 @@ export function BookingPanel({
   showHomePicker?: boolean;
 }) {
   const router = useRouter();
-  const [slug, setSlug] = useState(initialSlug && homes.some((h) => h.slug === initialSlug) ? initialSlug : homes[0]?.slug);
-  const home = homes.find((h) => h.slug === slug) ?? homes[0];
+  // Nothing is chosen for the guest: the home comes only from the page or the search, and the dates stay
+  // empty until the guest picks them (or brings them from the hero search).
+  const [slug, setSlug] = useState(initialSlug && homes.some((h) => h.slug === initialSlug) ? initialSlug : undefined);
+  const home = homes.find((h) => h.slug === slug);
+  const fromPrice = home?.nightlyPrice ?? Math.min(...homes.map((h) => h.nightlyPrice));
+  const maxGuests = home?.maxGuests ?? Math.max(...homes.map((h) => h.maxGuests));
   // Dates are worked out in the browser so a cached page always uses the visitor's today.
   const today = useToday();
   const [pickedIn, setCheckIn] = useState<string | null>(null);
   const [pickedOut, setCheckOut] = useState<string | null>(null);
-  const defaultIn = today ? (initialIn && initialIn >= today ? initialIn : addDaysIso(today, 7)) : "";
-  const checkIn = pickedIn ?? defaultIn;
+  const searchIn = today && initialIn && initialIn >= today ? initialIn : "";
+  const checkIn = pickedIn ?? searchIn;
   const nightsDefault = Math.max(2, home?.minNights ?? 1);
   const wantedOut = pickedOut ?? (pickedIn ? null : initialOut ?? null);
-  const checkOut = wantedOut && wantedOut > checkIn ? wantedOut : checkIn ? addDaysIso(checkIn, nightsDefault) : "";
+  const checkOut = !checkIn ? "" : wantedOut && wantedOut > checkIn ? wantedOut : addDaysIso(checkIn, nightsDefault);
   // Adults and children are counted on the card, so the request form does not ask again.
   const [party, setParty] = useState(() => {
-    const total = Math.max(1, Math.min(initialGuests, home?.maxGuests ?? 2));
+    const total = Math.max(1, Math.min(initialGuests, maxGuests || 2));
     const kids = Math.min(Math.max(0, initialChildren), total - 1);
     return { adults: total - kids, kids };
   });
@@ -88,23 +92,32 @@ export function BookingPanel({
   const [sending, setSending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const loadQuote = useCallback(async () => {
-    if (!home || !checkIn || !checkOut) return;
-    setLoading(true);
-    setError(null);
-    const res = await fetchQuote({ slug: home.slug, checkIn, checkOut, guests });
-    setLoading(false);
-    if (res.ok) setQuote(res.data);
-    else {
-      setQuote(null);
-      setError(res.error.code === "unavailable" ? `Already booked on ${res.error.taken?.map(prettyDate).join(", ")}. Try other dates or another home.` : res.error.error);
-    }
-  }, [home, checkIn, checkOut, guests]);
-
+  const homeSlug = home?.slug;
+  // Live price once a home and both dates are chosen. A newer choice cancels the answer to an older one.
   useEffect(() => {
-    const t = setTimeout(loadQuote, 250);
-    return () => clearTimeout(t);
-  }, [loadQuote]);
+    let live = true;
+    const t = setTimeout(async () => {
+      if (!homeSlug || !checkIn || !checkOut) {
+        setQuote(null);
+        setError(null);
+        return;
+      }
+      setLoading(true);
+      setError(null);
+      const res = await fetchQuote({ slug: homeSlug, checkIn, checkOut, guests });
+      if (!live) return;
+      setLoading(false);
+      if (res.ok) setQuote(res.data);
+      else {
+        setQuote(null);
+        setError(res.error.code === "unavailable" ? `Already booked on ${res.error.taken?.map(prettyDate).join(", ")}. Try other dates or another home.` : res.error.error);
+      }
+    }, 250);
+    return () => {
+      live = false;
+      clearTimeout(t);
+    };
+  }, [homeSlug, checkIn, checkOut, guests]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -135,23 +148,25 @@ export function BookingPanel({
     router.push(`/book/thank-you?${q.toString()}`);
   }
 
-  if (!home) return null;
+  if (!homes.length) return null;
   const label = "text-xs font-semibold uppercase tracking-wider text-muted";
   const input = "mt-1 w-full rounded-[var(--radius-control)] border border-line bg-white px-3 py-2.5 text-base text-ink outline-none transition-colors focus:border-forest focus:ring-2 focus:ring-forest/10";
-  const waText = checkIn && checkOut ? `Hi, I'd like to stay at ${home.name} from ${prettyDate(checkIn)} to ${prettyDate(checkOut)} for ${guests} guests.` : `Hi, I'd like to stay at ${home.name}.`;
+  const stay = home ? `at ${home.name}` : "with FlexiGo Stays";
+  const waText = checkIn && checkOut ? `Hi, I'd like to stay ${stay} from ${prettyDate(checkIn)} to ${prettyDate(checkOut)} for ${guests} guests.` : `Hi, I'd like to stay ${stay}.`;
+  const hint = !home && !checkIn ? "Choose a home and your dates to see the total price." : !home ? "Choose a home to see the total price." : "Pick your check-in and check-out dates to see the total price.";
 
   return (
     <div className="rounded-card border border-line bg-card p-5 shadow-soft sm:p-6" aria-live="polite">
       <p className="text-sm text-muted">From</p>
       <p className="text-2xl font-semibold text-forest">
-        {inr(home.nightlyPrice)} <span className="text-base font-normal text-muted">/ night</span>
+        {inr(fromPrice)} <span className="text-base font-normal text-muted">/ night</span>
       </p>
 
       {showHomePicker && (
         <div className="mt-4">
           <HomeField
             homes={homes}
-            value={home.slug}
+            value={home?.slug ?? ""}
             onChange={(next) => {
               setSlug(next);
               setStep("dates");
@@ -169,8 +184,8 @@ export function BookingPanel({
           today={today}
           checkIn={checkIn}
           checkOut={checkOut}
-          slug={home.slug}
-          minNights={home.minNights}
+          slug={home?.slug ?? ""}
+          minNights={home?.minNights ?? 1}
           holidays={holidays}
           onChange={(i, o) => {
             setCheckIn(i);
@@ -183,8 +198,8 @@ export function BookingPanel({
         <GuestsField
           adults={party.adults}
           kids={party.kids}
-          max={home.maxGuests}
-          homeName={home.name}
+          max={maxGuests}
+          homeName={home?.name}
           onChange={(adults, kids) => {
             setParty({ adults, kids });
             setStep("dates");
@@ -193,6 +208,7 @@ export function BookingPanel({
       </div>
 
       <div className="mt-5 min-h-24 rounded-xl bg-stone p-4">
+        {(!home || !checkIn || !checkOut) && <p className="text-sm text-muted">{hint}</p>}
         {loading && !quote && <p className="flex items-center gap-2 text-sm text-muted"><Loader2 className="animate-spin" size={16} aria-hidden /> Checking dates and price</p>}
         {error && <p className="text-sm text-red-800">{error}</p>}
         {quote && !error && (
