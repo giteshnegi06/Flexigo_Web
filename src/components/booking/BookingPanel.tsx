@@ -14,6 +14,7 @@ import { DateRangeField } from "../search/DateRangeField";
 import { HomeField } from "../search/HomeField";
 import { GuestsField } from "../search/GuestsField";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { RequestDialog } from "./RequestDialog";
 
 type HomeOption = { slug: string; name: string; maxGuests: number; nightlyPrice: number; minNights: number; coverPhoto?: string };
 
@@ -149,8 +150,6 @@ export function BookingPanel({
   }
 
   if (!homes.length) return null;
-  const label = "text-xs font-semibold uppercase tracking-wider text-muted";
-  const input = "mt-1 w-full rounded-[var(--radius-control)] border border-line bg-white px-3 py-2.5 text-base text-ink outline-none transition-colors focus:border-forest focus:ring-2 focus:ring-forest/10";
   const stay = home ? `at ${home.name}` : "with FlexiGo Stays";
   const waText = checkIn && checkOut ? `Hi, I'd like to stay ${stay} from ${prettyDate(checkIn)} to ${prettyDate(checkOut)} for ${guests} guests.` : `Hi, I'd like to stay ${stay}.`;
   const hint = !home && !checkIn ? "Choose a home and your dates to see the total price." : !home ? "Choose a home to see the total price." : "Pick your check-in and check-out dates to see the total price.";
@@ -221,29 +220,31 @@ export function BookingPanel({
         )}
       </div>
 
-      {step === "dates" ? (
-        <div className="mt-5 flex flex-col gap-3">
-          <Button type="button" disabled={!quote || !!error || loading} onClick={() => setStep("details")}>
-            <CalendarCheck size={18} aria-hidden /> Request these dates
-          </Button>
-          <a href={whatsappLink(whatsappNumber, waText)} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-whatsapp">
-            <WhatsAppIcon size={17} /> Ask on WhatsApp instead
-          </a>
-          <p className="text-center text-xs text-muted">You will not be charged now. The host confirms your dates first.</p>
-        </div>
-      ) : (
-        <form onSubmit={submit} className="mt-5 space-y-3" noValidate={false}>
-          <label className="block"><span className={label}>Full name</span><input name="name" required minLength={2} autoComplete="name" className={input} /></label>
-          <label className="block"><span className={label}>Email</span><input name="email" type="email" required autoComplete="email" className={input} /></label>
-          <label className="block"><span className={label}>Phone</span><input name="phone" type="tel" required autoComplete="tel" placeholder="+91" className={input} /></label>
-          <label className="block"><span className={label}>Message (optional)</span><textarea name="message" rows={3} className={input} placeholder="Arrival time, meals, pickup..." /></label>
-          <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
-          {formError && <p className="text-sm text-red-800">{formError}</p>}
-          <Button type="submit" disabled={sending} className="w-full">
-            {sending ? <Loader2 className="animate-spin" size={18} aria-hidden /> : null} Send request
-          </Button>
-          <button type="button" onClick={() => setStep("dates")} className="min-h-11 w-full text-sm font-semibold text-forest">Change dates</button>
-        </form>
+      <div className="mt-5 flex flex-col gap-3">
+        <Button type="button" disabled={!quote || !!error || loading} aria-haspopup="dialog" onClick={() => setStep("details")}>
+          <CalendarCheck size={18} aria-hidden /> Request these dates
+        </Button>
+        <a href={whatsappLink(whatsappNumber, waText)} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-whatsapp">
+          <WhatsAppIcon size={17} /> Ask on WhatsApp instead
+        </a>
+        <p className="text-center text-xs text-muted">You will not be charged now. The host confirms your dates first.</p>
+      </div>
+
+      {/* The contact details are asked for in a popup, so the card keeps its size */}
+      {step === "details" && home && quote && checkIn && checkOut && (
+        <RequestDialog
+          homeName={home.name}
+          coverPhoto={home.coverPhoto}
+          checkIn={checkIn}
+          checkOut={checkOut}
+          adults={party.adults}
+          kids={party.kids}
+          quote={quote}
+          sending={sending}
+          error={formError}
+          onSubmit={submit}
+          onClose={() => setStep("dates")}
+        />
       )}
     </div>
   );

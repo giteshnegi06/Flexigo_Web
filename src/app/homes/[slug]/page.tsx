@@ -155,7 +155,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
 
         <aside id="book" className="scroll-mt-40 lg:sticky lg:top-36 lg:self-start xl:top-40" aria-label="Book this home">
           <BookingPanel
-            homes={[{ slug: home.slug, name: home.name, maxGuests: home.maxGuests, nightlyPrice: home.nightlyPrice, minNights: home.minNights }]}
+            homes={[{ slug: home.slug, name: home.name, maxGuests: home.maxGuests, nightlyPrice: home.nightlyPrice, minNights: home.minNights, coverPhoto: home.coverPhoto }]}
             initialSlug={home.slug}
             whatsappNumber={site.whatsappNumber}
             holidays={holidays}
