@@ -16,7 +16,7 @@ export function HomeCard({ home, priority = false }: { home: Home; priority?: bo
       </div>
       <div className="flex flex-1 flex-col pt-4">
         <h3 className="font-sans text-xl font-semibold tracking-normal text-ink">{home.name}</h3>
-        <p className="mt-0.5 text-[0.95rem] text-muted">Shimla, Himachal Pradesh</p>
+        <p className="mt-0.5 text-[0.95rem] text-muted">{[home.area, home.locationName ?? "Shimla"].filter(Boolean).join(", ")}</p>
         <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-sm text-muted">
           <li className="flex items-center gap-1.5"><Users size={15} aria-hidden /> Up to {home.maxGuests} guests</li>
           <li className="flex items-center gap-1.5"><BedDouble size={15} aria-hidden /> {home.bedrooms} rooms</li>

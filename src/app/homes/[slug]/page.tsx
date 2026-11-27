@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps<"/homes/[slug]">): 
   const home = await getHome(slug);
   if (!home) return { title: "Home not found" };
   return {
-    title: `${home.name}, Shimla`,
+    title: `${home.name}, ${home.location?.name ?? "Shimla"}`,
     description: `${home.tagline}. Up to ${home.maxGuests} guests, ${home.bedrooms} bedrooms. From ${inr(home.nightlyPrice)} a night.`,
     openGraph: { images: [{ url: home.coverPhoto }] },
   };
@@ -48,6 +48,9 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
   const [home, homes, site, holidays] = await Promise.all([getHome(slug), getHomes(), getSite(), getHolidays()]);
   if (!home) notFound();
   const others = homes.filter((h) => h.slug !== home.slug);
+  const town = home.location?.name ?? "Shimla";
+  const inShimla = (home.location?.slug ?? "shimla") === "shimla";
+  const placeLine = [home.area, town].filter(Boolean).join(", ") + (inShimla ? ", about 25 to 30 min from Mall Road" : "");
   const groups = Object.entries(
     home.amenities.reduce<Record<string, string[]>>((acc, a) => {
       (acc[a.group] ??= []).push(a.label);
@@ -62,7 +65,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
     image: home.photos.map((p) => p.url),
     numberOfRooms: home.bedrooms,
     occupancy: { "@type": "QuantitativeValue", maxValue: home.maxGuests },
-    address: { "@type": "PostalAddress", addressLocality: "Shimla", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
+    address: { "@type": "PostalAddress", addressLocality: home.location?.name ?? "Shimla", addressRegion: "Himachal Pradesh", addressCountry: "IN" },
   };
 
   return (
@@ -80,7 +83,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
       <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_380px]">
         <div>
           <h1 id="overview" className="text-[2rem] sm:text-[2.6rem]">{home.name}</h1>
-          <p className="mt-1.5 flex items-center gap-1.5 text-muted"><MapPin size={16} aria-hidden /> Shimla, about 25 to 30 min from Mall Road</p>
+          <p className="mt-1.5 flex items-center gap-1.5 text-muted"><MapPin size={16} aria-hidden /> {placeLine}</p>
           <p className="mt-4 text-lg text-ink">{home.tagline}</p>
           {/* Fact chips: tinted background with a fine border, like StayVista */}
           <ul className="mt-5 flex flex-wrap gap-2.5 border-b border-line pb-6">
@@ -152,7 +155,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
           {home.mapLat != null && home.mapLng != null && (
             <section className="mt-14" aria-labelledby="location">
               <h2 id="location" className="text-3xl">Location</h2>
-              <LocationMap name={home.name} lat={home.mapLat} lng={home.mapLng} exact={home.mapExact} />
+              <LocationMap name={home.name} town={town} inShimla={inShimla} lat={home.mapLat} lng={home.mapLng} exact={home.mapExact} />
             </section>
           )}
 

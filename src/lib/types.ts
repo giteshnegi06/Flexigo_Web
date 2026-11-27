@@ -20,7 +20,13 @@ export type HomeCard = {
   highlights: string[];
   goodFor: GuestType[];
   coverPhoto: string;
+  propertyType: PropertyType;
+  area: string | null;
+  locationSlug: string | null;
+  locationName: string | null;
 };
+
+export type PropertyType = "apartment" | "villa";
 
 export type Photo = { id: number; url: string; alt: string; category: string; width: number | null; height: number | null };
 export type Room = { id: number; name: string; description: string };
@@ -35,6 +41,7 @@ export type HomeDetail = HomeCard & {
   mapLat: number | null;
   mapLng: number | null;
   mapExact: boolean;
+  location: { slug: string; name: string } | null;
   rooms: Room[];
   photos: Photo[];
   amenities: Amenity[];
@@ -75,3 +82,8 @@ export type Holiday = { day: string; name: string };
 /** A website image from /api/images, by key (hero, day-*, season-*, collection-*). */
 export type SiteImage = { url: string; alt: string };
 export type SiteImages = Record<string, SiteImage>;
+
+/** A location card under the home page hero. */
+export type Location = { slug: string; name: string; description: string; image: string; imageAlt: string; homeCount: number };
+/** A home on a location page, with a few photos for the card slider and its amenities for chips and filters. */
+export type LocationHome = HomeCard & { photos: { url: string; alt: string }[]; amenities: string[] };

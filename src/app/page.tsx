@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, ShieldCheck, Wifi, Zap } from "lucide-react";
-import { getHolidays, getHomes, getImages, getPlaces, getReviews, getSite } from "@/lib/api";
+import { getHolidays, getHomes, getImages, getLocations, getPlaces, getReviews, getSite } from "@/lib/api";
 import { faqs, seasons, stayTypes } from "@/lib/content";
 import { Collection } from "@/components/home/Collection";
 import { whatsappLink } from "@/lib/format";
 import { Hero } from "@/components/home/Hero";
 import { HomeCard } from "@/components/home/HomeCard";
 import { DayStory } from "@/components/home/DayStory";
+import { LocationCards } from "@/components/home/LocationCards";
 import { TestimonialsSection } from "@/components/ui/testimonials-6";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
@@ -17,7 +18,7 @@ import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 const reviewRole: Record<string, string> = { family: "Family stay", couple: "Couple's stay", workation: "Workation", friends: "Trip with friends", general: "Guest" };
 
 export default async function HomePage() {
-  const [homes, reviews, site, places, holidays, images] = await Promise.all([getHomes(), getReviews(), getSite(), getPlaces(), getHolidays(), getImages()]);
+  const [homes, reviews, site, places, holidays, images, locations] = await Promise.all([getHomes(), getReviews(), getSite(), getPlaces(), getHolidays(), getImages(), getLocations()]);
 
   return (
     <>
@@ -27,6 +28,8 @@ export default async function HomePage() {
         whatsappNumber={site.whatsappNumber}
         heroImage={images.hero}
       />
+
+      <LocationCards locations={locations} />
 
       <section aria-label="Why guests choose us" className="border-b border-line bg-stone">
         <ul className="mx-auto grid max-w-site grid-cols-2 gap-6 px-4 py-8 sm:px-6 md:grid-cols-4 lg:px-8">

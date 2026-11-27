@@ -1,6 +1,6 @@
 // The only file that talks to the backend. Server reads are cached; quotes and enquiries are always live.
 import { cacheLife } from "next/cache";
-import type { Holiday, HomeCard, HomeDetail, Place, Review, SiteImages, SiteInfo } from "./types";
+import type { Holiday, HomeCard, HomeDetail, Location, LocationHome, Place, Review, SiteImages, SiteInfo } from "./types";
 
 // Trailing slashes are removed, so "https://api.example/" does not produce "//api/..." URLs (Vercel redirects those).
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000").trim().replace(/\/+$/, "");
@@ -72,4 +72,21 @@ export async function getImages(): Promise<SiteImages> {
   cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
   const rows = await get<{ key: string; url: string; alt: string }[]>("/images");
   return Object.fromEntries(rows.map(({ key, url, alt }) => [key, { url, alt }]));
+}
+
+/** Location cards for the home page, with how many homes each has. */
+export async function getLocations(): Promise<Location[]> {
+  "use cache";
+  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  return get<Location[]>("/locations");
+}
+
+/** One location and its homes, or null when there is no such location. */
+export async function getLocation(slug: string): Promise<{ location: Omit<Location, "homeCount">; homes: LocationHome[] } | null> {
+  "use cache";
+  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  const res = await call(`/locations/${encodeURIComponent(slug)}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`API /locations/${slug} failed with ${res.status}`);
+  return res.json();
 }
