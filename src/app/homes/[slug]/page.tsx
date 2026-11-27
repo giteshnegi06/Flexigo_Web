@@ -11,6 +11,7 @@ import { BookingPanel } from "@/components/booking/BookingPanel";
 import { Reviews } from "@/components/home/Reviews";
 import { HomeCard } from "@/components/home/HomeCard";
 import { SectionNav } from "@/components/home/SectionNav";
+import { LocationMap } from "@/components/home/LocationMap";
 
 const sections = [
   { id: "overview", label: "Overview" },
@@ -19,6 +20,7 @@ const sections = [
   { id: "rooms", label: "Rooms" },
   { id: "amenities", label: "Amenities" },
   { id: "rules", label: "House rules" },
+  { id: "location", label: "Location" },
   { id: "home-reviews", label: "Reviews" },
   { id: "others", label: "Other homes" },
 ];
@@ -146,6 +148,13 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
             </ul>
             <p className="mt-4 text-sm text-muted">See the <Link href="/cancellation-policy" className="underline">cancellation and refund policy</Link> and the <Link href="/terms" className="underline">terms of stay</Link>.</p>
           </section>
+
+          {home.mapLat != null && home.mapLng != null && (
+            <section className="mt-14" aria-labelledby="location">
+              <h2 id="location" className="text-3xl">Location</h2>
+              <LocationMap name={home.name} lat={home.mapLat} lng={home.mapLng} exact={home.mapExact} />
+            </section>
+          )}
 
           <section className="mt-14" aria-labelledby="home-reviews">
             <h2 id="home-reviews" className="text-3xl">Guest reviews</h2>

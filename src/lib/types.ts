@@ -32,6 +32,9 @@ export type HomeDetail = HomeCard & {
   checkInTime: string;
   checkOutTime: string;
   airbnbUrl: string | null;
+  mapLat: number | null;
+  mapLng: number | null;
+  mapExact: boolean;
   rooms: Room[];
   photos: Photo[];
   amenities: Amenity[];
@@ -68,3 +71,7 @@ export type Quote = {
 export type ApiError = { error: string; code?: string; taken?: string[]; maxGuests?: number; minNights?: number };
 
 export type Holiday = { day: string; name: string };
+
+/** A website image from /api/images, by key (hero, day-*, season-*, collection-*). */
+export type SiteImage = { url: string; alt: string };
+export type SiteImages = Record<string, SiteImage>;

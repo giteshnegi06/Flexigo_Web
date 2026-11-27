@@ -41,3 +41,7 @@ export type EnquiryInput = {
 export function sendEnquiry(input: EnquiryInput) {
   return send<{ ok: true; enquiryId: number; quote: Quote }>("/enquiries", { method: "POST", body: JSON.stringify(input) });
 }
+
+export function sendContact(input: { name: string; phone: string; message?: string; sourcePage?: string; website?: string }) {
+  return send<{ ok: true; id: number }>("/contact", { method: "POST", body: JSON.stringify(input) });
+}

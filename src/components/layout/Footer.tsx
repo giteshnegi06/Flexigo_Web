@@ -5,6 +5,7 @@ import { getHomes, getPlaces, getSite } from "@/lib/api";
 import { stayTypes } from "@/lib/content";
 import { whatsappLink } from "@/lib/format";
 import { FloatingContact } from "./FloatingContact";
+import { GetInTouch } from "./GetInTouch";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 
 const linkClass = "text-[0.95rem] text-[#c9d2cc] transition-colors duration-200 hover:text-white";
@@ -74,6 +75,7 @@ export async function Footer() {
         </p>
       </footer>
       {site && <FloatingContact whatsappNumber={site.whatsappNumber} phone={site.phone} />}
+      {site && <GetInTouch hostName={site.hostName} phone={site.phone} whatsappNumber={site.whatsappNumber} />}
     </>
   );
 }

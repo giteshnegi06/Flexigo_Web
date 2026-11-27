@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Phone, ShieldCheck, Wifi, Zap } from "lucide-react";
-import { getHolidays, getHomes, getPlaces, getReviews, getSite } from "@/lib/api";
-import { faqs, heroPhoto, seasons, stayTypes } from "@/lib/content";
+import { getHolidays, getHomes, getImages, getPlaces, getReviews, getSite } from "@/lib/api";
+import { faqs, seasons, stayTypes } from "@/lib/content";
 import { Collection } from "@/components/home/Collection";
 import { whatsappLink } from "@/lib/format";
 import { Hero } from "@/components/home/Hero";
@@ -17,7 +17,7 @@ import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 const reviewRole: Record<string, string> = { family: "Family stay", couple: "Couple's stay", workation: "Workation", friends: "Trip with friends", general: "Guest" };
 
 export default async function HomePage() {
-  const [homes, reviews, site, places, holidays] = await Promise.all([getHomes(), getReviews(), getSite(), getPlaces(), getHolidays()]);
+  const [homes, reviews, site, places, holidays, images] = await Promise.all([getHomes(), getReviews(), getSite(), getPlaces(), getHolidays(), getImages()]);
 
   return (
     <>
@@ -25,6 +25,7 @@ export default async function HomePage() {
         homes={homes.map(({ slug, name, maxGuests, nightlyPrice, minNights, coverPhoto }) => ({ slug, name, maxGuests, nightlyPrice, minNights, coverPhoto }))}
         holidays={holidays}
         whatsappNumber={site.whatsappNumber}
+        heroImage={images.hero}
       />
 
       <section aria-label="Why guests choose us" className="border-b border-line bg-stone">
@@ -68,7 +69,7 @@ export default async function HomePage() {
                 badge: "Plan your days",
                 badgeIcon: "guide",
                 points: places.slice(0, 4).map((p) => p.name),
-                image: heroPhoto.src,
+                image: images["collection-guide"]?.url ?? homes[0]?.coverPhoto ?? "",
                 href: "/guide",
               },
               {
@@ -77,7 +78,7 @@ export default async function HomePage() {
                 badge: "By Flexigo Holidays",
                 badgeIcon: "trips",
                 points: ["Day trips to Kufri and Mashobra", "Station and airport pickups", "Himachal, Kashmir and Ladakh tours", "Planned by a local team"],
-                image: "https://www.flexigoholidays.com/assets/img/manali-img/2.webp",
+                image: images["collection-trips"]?.url ?? homes[0]?.coverPhoto ?? "",
                 href: "https://www.flexigoholidays.com/",
                 external: true,
               },
@@ -100,7 +101,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <DayStory />
+      <DayStory images={images} />
 
       <section className="bg-forest py-20 text-[#c9d2cc] lg:py-28" aria-labelledby="types-title">
         <div className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
@@ -162,8 +163,8 @@ export default async function HomePage() {
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {seasons.map((s) => (
             <li key={s.name} data-reveal className="overflow-hidden rounded-card bg-card shadow-soft">
-              <div className="relative aspect-[4/3]">
-                <Image src={s.src} alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+              <div className="relative aspect-[4/3] bg-stone">
+                {images[s.image] && <Image src={images[s.image].url} alt={images[s.image].alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />}
               </div>
               <div className="p-5">
                 <h3 className="text-2xl">{s.name}</h3>

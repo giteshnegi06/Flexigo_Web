@@ -10,11 +10,10 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { CalendarHeart, ChevronLeft, ChevronRight, PhoneCall } from "lucide-react";
-import { heroPhoto } from "@/lib/content";
 import { whatsappLink } from "@/lib/format";
 import { useToday } from "@/lib/useToday";
 import { useMediaQuery } from "@/lib/useMediaQuery";
-import type { Holiday } from "@/lib/types";
+import type { Holiday, SiteImage } from "@/lib/types";
 import { holidayHint } from "@/components/search/DateRangeCalendar";
 import { SearchBar, type SearchHome } from "./SearchBar";
 
@@ -22,9 +21,9 @@ gsap.registerPlugin(SplitText, useGSAP);
 
 const SLIDE_MS = 6000;
 
-type Props = { homes: SearchHome[]; holidays: Holiday[]; whatsappNumber: string };
+type Props = { homes: SearchHome[]; holidays: Holiday[]; whatsappNumber: string; heroImage?: SiteImage };
 
-export function Hero({ homes, holidays, whatsappNumber }: Props) {
+export function Hero({ homes, holidays, whatsappNumber, heroImage }: Props) {
   const root = useRef<HTMLElement>(null);
   const touchX = useRef<number | null>(null);
   const today = useToday();
@@ -33,7 +32,8 @@ export function Hero({ homes, holidays, whatsappNumber }: Props) {
   const [held, setHeld] = useState(false); // pointer or keyboard focus is on the photo
 
   const slides = [
-    { src: heroPhoto.src, alt: heroPhoto.alt },
+    // The first photo is set in the admin panel (Images), then each home's cover photo.
+    ...(heroImage ? [{ src: heroImage.url, alt: heroImage.alt }] : []),
     ...homes.map((h) => ({ src: h.coverPhoto, alt: `${h.name}, Shimla` })),
   ];
   const count = slides.length;

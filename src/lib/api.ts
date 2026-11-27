@@ -1,6 +1,6 @@
 // The only file that talks to the backend. Server reads are cached; quotes and enquiries are always live.
 import { cacheLife } from "next/cache";
-import type { Holiday, HomeCard, HomeDetail, Place, Review, SiteInfo } from "./types";
+import type { Holiday, HomeCard, HomeDetail, Place, Review, SiteImages, SiteInfo } from "./types";
 
 // Trailing slashes are removed, so "https://api.example/" does not produce "//api/..." URLs (Vercel redirects those).
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000").trim().replace(/\/+$/, "");
@@ -64,4 +64,12 @@ export async function getHolidays(): Promise<Holiday[]> {
   "use cache";
   cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
   return get<Holiday[]>("/holidays");
+}
+
+/** Every website image that is not a home photo, keyed for lookup. Changed from the admin panel. */
+export async function getImages(): Promise<SiteImages> {
+  "use cache";
+  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  const rows = await get<{ key: string; url: string; alt: string }[]>("/images");
+  return Object.fromEntries(rows.map(({ key, url, alt }) => [key, { url, alt }]));
 }

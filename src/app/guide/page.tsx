@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Car, MapPin, Train } from "lucide-react";
-import { getPlaces } from "@/lib/api";
+import { getImages, getPlaces } from "@/lib/api";
 import { seasons } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/Button";
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: "Shimla guide", description: "Places 
 const categoryLabel: Record<string, string> = { sight: "Sights", walk: "Walks", "day-trip": "Day trips", cafe: "Cafes", essentials: "Essentials" };
 
 export default async function GuidePage() {
-  const places = await getPlaces();
+  const [places, images] = await Promise.all([getPlaces(), getImages()]);
   const groups = Object.entries(
     places.reduce<Record<string, typeof places>>((acc, p) => {
       (acc[p.category] ??= []).push(p);
@@ -51,7 +51,7 @@ export default async function GuidePage() {
         <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {seasons.map((s) => (
             <li key={s.name} data-reveal className="overflow-hidden rounded-card bg-card shadow-soft">
-              <div className="relative aspect-[4/3]"><Image src={s.src} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" /></div>
+              <div className="relative aspect-[4/3] bg-stone">{images[s.image] && <Image src={images[s.image].url} alt={images[s.image].alt} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />}</div>
               <div className="p-5"><h3 className="text-2xl">{s.name}</h3><p className="text-sm font-semibold text-pine-dark">{s.months} · {s.temp}</p><p className="mt-2 text-muted">{s.text}</p></div>
             </li>
           ))}

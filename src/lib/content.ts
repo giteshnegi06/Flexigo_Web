@@ -1,16 +1,13 @@
-// Fixed marketing content. Everything that changes (homes, prices, reviews) comes from the backend.
+// Fixed marketing text. Everything that changes (homes, prices, reviews) and every image comes from the backend:
+// sections here name an image by key, and its address and description are loaded from /api/images.
 import type { GuestType } from "./types";
 
-export const IMG = "https://www.flexigoholidays.com/assets/img/room/";
-
-export const heroPhoto = { src: IMG + "card-room-6.avif", alt: "Terrace gazebo looking across the Shimla hills", width: 1200, height: 800 };
-
 export const dayStory = [
-  { time: "7:00", title: "Sunrise chai on the balcony", text: "Mist lifts off the valley while the kettle sings. No alarms, no checkout rush.", src: IMG + "3BHK5.avif", alt: "Balcony swing and chairs" },
-  { time: "10:30", title: "A slow breakfast at home", text: "A fully equipped kitchen, or a home-cooked meal arranged by the host.", src: IMG + "card-room-1.avif", alt: "Living and dining area" },
-  { time: "14:00", title: "Work, read or explore", text: "Fast Wi-Fi and a quiet desk, the mini library, or a drive to Kufri and Mashobra.", src: IMG + "card-room-7.webp", alt: "Reading corner with books" },
-  { time: "18:30", title: "Evening on the terrace", text: "The shared terrace garden and gazebo, with lights coming on across the hills.", src: IMG + "card-room-6.avif", alt: "Terrace gazebo at dusk" },
-  { time: "21:30", title: "Warm and quiet nights", text: "Heaters, soft lighting and fresh linen. The only sound is the wind in the pines.", src: IMG + "bress-1.jpg", alt: "Bedroom with balcony door" },
+  { time: "7:00", title: "Sunrise chai on the balcony", text: "Mist lifts off the valley while the kettle sings. No alarms, no checkout rush.", image: "day-morning" },
+  { time: "10:30", title: "A slow breakfast at home", text: "A fully equipped kitchen, or a home-cooked meal arranged by the host.", image: "day-breakfast" },
+  { time: "14:00", title: "Work, read or explore", text: "Fast Wi-Fi and a quiet desk, the mini library, or a drive to Kufri and Mashobra.", image: "day-afternoon" },
+  { time: "18:30", title: "Evening on the terrace", text: "The shared terrace garden and gazebo, with lights coming on across the hills.", image: "day-evening" },
+  { time: "21:30", title: "Warm and quiet nights", text: "Heaters, soft lighting and fresh linen. The only sound is the wind in the pines.", image: "day-night" },
 ];
 
 export const stayTypes: { type: Exclude<GuestType, "general">; title: string; text: string; slug: string }[] = [
@@ -21,10 +18,10 @@ export const stayTypes: { type: Exclude<GuestType, "general">; title: string; te
 ];
 
 export const seasons = [
-  { name: "Spring", months: "March to May", temp: "8°C to 22°C", text: "Blossom, clear skies and the best walking weather.", src: IMG + "3BHK1.jpg" },
-  { name: "Monsoon", months: "July to September", temp: "15°C to 24°C", text: "Green hills, clouds drifting below the balcony and quiet roads.", src: IMG + "card-room-3.avif" },
-  { name: "Autumn", months: "October to November", temp: "6°C to 20°C", text: "Crisp air and the longest views of the year.", src: IMG + "bress-1.jpg" },
-  { name: "Winter", months: "December to February", temp: "-2°C to 12°C", text: "Chances of snow, heaters on and hot chocolate by the window.", src: IMG + "2bhk-5.avif" },
+  { name: "Spring", months: "March to May", temp: "8°C to 22°C", text: "Blossom, clear skies and the best walking weather.", image: "season-spring" },
+  { name: "Monsoon", months: "July to September", temp: "15°C to 24°C", text: "Green hills, clouds drifting below the balcony and quiet roads.", image: "season-monsoon" },
+  { name: "Autumn", months: "October to November", temp: "6°C to 20°C", text: "Crisp air and the longest views of the year.", image: "season-autumn" },
+  { name: "Winter", months: "December to February", temp: "-2°C to 12°C", text: "Chances of snow, heaters on and hot chocolate by the window.", image: "season-winter" },
 ];
 
 export const faqs = [
