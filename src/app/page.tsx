@@ -29,8 +29,6 @@ export default async function HomePage() {
         heroImage={images.hero}
       />
 
-      <LocationCards locations={locations} />
-
       <section aria-label="Why guests choose us" className="border-b border-line bg-stone">
         <ul className="mx-auto grid max-w-site grid-cols-2 gap-6 px-4 py-8 sm:px-6 md:grid-cols-4 lg:px-8">
           {[
@@ -49,6 +47,8 @@ export default async function HomePage() {
           ))}
         </ul>
       </section>
+
+      <LocationCards locations={locations} />
 
       <section className="mx-auto max-w-site px-4 pt-20 sm:px-6 lg:px-8 lg:pt-28" aria-labelledby="collection-title">
         <SectionHeading eyebrow="The FlexiGo collection" title="Three homes, one host, all of Shimla" id="collection-title">
