@@ -9,7 +9,7 @@ export function LocationCards({ locations }: { locations: Location[] }) {
   if (!locations.length) return null;
   return (
     <section aria-labelledby="locations-title" className="mx-auto max-w-site px-4 pb-4 pt-10 sm:px-6 lg:px-8 lg:pt-12">
-      <h2 id="locations-title" className="text-2xl sm:text-3xl">Explore by location</h2>
+      <h2 id="locations-title" className="text-2xl sm:text-3xl">Explore your escape?</h2>
       <ul className="-mx-4 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] sm:-mx-6 sm:gap-4 sm:px-6 lg:mx-0 lg:px-0">
         {locations.map((l, i) => (
           <li key={l.slug} className="w-[42%] shrink-0 snap-start sm:w-[13.5rem]">
