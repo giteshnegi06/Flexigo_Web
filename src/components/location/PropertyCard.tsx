@@ -26,7 +26,8 @@ export function chipsFor(home: Pick<LocationHome, "amenities" | "highlights">) {
 }
 
 export function PropertyCard({ home, priority = false }: { home: LocationHome; priority?: boolean }) {
-  const photos = home.photos.length ? home.photos : [{ url: home.coverPhoto, alt: home.name }];
+  // The cover opens the slider, then the rest of the gallery in its order.
+  const photos = [{ url: home.coverPhoto, alt: home.name }, ...home.photos.filter((p) => p.url !== home.coverPhoto)];
   const [index, setIndex] = useState(0);
   const touchX = useRef<number | null>(null);
   const go = (step: number) => setIndex((i) => (i + step + photos.length) % photos.length);

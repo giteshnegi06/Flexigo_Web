@@ -20,10 +20,23 @@ async function call(path: string): Promise<Response> {
   }
 }
 
+// Photos uploaded in the admin panel are stored as "/api/media/<id>". Add the API address to every such path
+// in a response, so pages and next/image get a full address without each page knowing about uploads.
+function withMedia<T>(value: T): T {
+  if (typeof value === "string") return (value.startsWith("/api/media/") ? API_URL + value : value) as T;
+  if (Array.isArray(value)) return value.map(withMedia) as T;
+  if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, withMedia(v)])) as T;
+  return value;
+}
+
+async function read<T>(res: Response): Promise<T> {
+  return withMedia((await res.json()) as T);
+}
+
 async function get<T>(path: string): Promise<T> {
   const res = await call(path);
   if (!res.ok) throw new Error(`API ${path} failed with ${res.status}`);
-  return res.json() as Promise<T>;
+  return read<T>(res);
 }
 
 export async function getHomes(): Promise<HomeCard[]> {
@@ -38,7 +51,7 @@ export async function getHome(slug: string): Promise<HomeDetail | null> {
   const res = await call(`/homes/${encodeURIComponent(slug)}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`API /homes/${slug} failed with ${res.status}`);
-  return res.json() as Promise<HomeDetail>;
+  return read<HomeDetail>(res);
 }
 
 export async function getReviews(): Promise<Review[]> {
@@ -88,5 +101,5 @@ export async function getLocation(slug: string): Promise<{ location: Omit<Locati
   const res = await call(`/locations/${encodeURIComponent(slug)}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`API /locations/${slug} failed with ${res.status}`);
-  return res.json();
+  return read(res);
 }
