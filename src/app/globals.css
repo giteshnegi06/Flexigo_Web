@@ -167,3 +167,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   outline: 2px solid var(--color-forest);
   outline-offset: 2px;
 }
+
+/* Dropdown cards open with a short fade and lift; no movement for visitors who prefer reduced motion. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+.pop-in {
+  animation: pop-in 0.16s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pop-in {
+    animation: none;
+  }
+}

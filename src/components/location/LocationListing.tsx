@@ -8,6 +8,7 @@ import { Building2, House, SlidersHorizontal, X } from "lucide-react";
 import { inr } from "@/lib/format";
 import type { Location, LocationHome, PropertyType } from "@/lib/types";
 import { PropertyCard } from "./PropertyCard";
+import { Select } from "@/components/ui/Select";
 
 type Sort = "recommended" | "price-asc" | "price-desc" | "guests";
 const sorts: { value: Sort; label: string }[] = [
@@ -76,12 +77,7 @@ export function LocationListing({ location, homes }: { location: Omit<Location, 
               <button type="button" onClick={() => setSheet(true)} className="flex min-h-11 items-center gap-2 rounded-full border border-line bg-card px-4 text-sm font-semibold text-forest lg:hidden">
                 <SlidersHorizontal size={16} aria-hidden /> Filters{active ? " (on)" : ""}
               </button>
-              <label className="flex min-h-11 items-center gap-2 rounded-full border border-line bg-card pl-4 pr-2 text-sm text-muted">
-                Sort by
-                <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="min-h-10 bg-transparent pr-1 font-semibold text-ink outline-none">
-                  {sorts.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-                </select>
-              </label>
+              <Select label="Sort by" value={sort} options={sorts} onChange={setSort} align="end" />
             </div>
           </div>
 
