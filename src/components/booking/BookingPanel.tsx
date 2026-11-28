@@ -111,7 +111,7 @@ export function BookingPanel({
       if (res.ok) setQuote(res.data);
       else {
         setQuote(null);
-        setError(res.error.code === "unavailable" ? `Already booked on ${res.error.taken?.map(prettyDate).join(", ")}. Try other dates or another home.` : res.error.error);
+        setError(res.error.code === "unavailable" ? `Already booked on ${res.error.taken?.map(prettyDate).join(", ")}. Try other dates or another property.` : res.error.error);
       }
     }, 250);
     return () => {
@@ -152,7 +152,7 @@ export function BookingPanel({
   if (!homes.length) return null;
   const stay = home ? `at ${home.name}` : "with FlexiGo Stays";
   const waText = checkIn && checkOut ? `Hi, I'd like to stay ${stay} from ${prettyDate(checkIn)} to ${prettyDate(checkOut)} for ${guests} guests.` : `Hi, I'd like to stay ${stay}.`;
-  const hint = !home && !checkIn ? "Choose a home and your dates to see the total price." : !home ? "Choose a home to see the total price." : "Pick your check-in and check-out dates to see the total price.";
+  const hint = !home && !checkIn ? "Choose a property and your dates to see the total price." : !home ? "Choose a property to see the total price." : "Pick your check-in and check-out dates to see the total price.";
 
   return (
     <div className="rounded-card border border-line bg-card p-5 shadow-soft sm:p-6" aria-live="polite">

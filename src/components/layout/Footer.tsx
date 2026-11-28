@@ -25,11 +25,11 @@ export async function Footer() {
     <>
       <footer className="relative mt-24 overflow-hidden bg-night text-[#c9d2cc]">
         <div className="relative z-10 mx-auto grid max-w-site gap-x-8 gap-y-10 px-4 pb-10 pt-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-5 lg:px-8">
-          <Column title="Homes in Shimla">
+          <Column title="Properties in Shimla">
             {homes.map((h) => (
               <li key={h.slug}><Link className={linkClass} href={`/homes/${h.slug}`}>{h.name}</Link></li>
             ))}
-            <li><Link className={linkClass} href="/compare">Compare the homes</Link></li>
+            <li><Link className={linkClass} href="/compare">Compare the properties</Link></li>
           </Column>
           <Column title="Stays for">
             {stayTypes.map((s) => (

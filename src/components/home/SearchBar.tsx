@@ -219,13 +219,13 @@ export function SearchBar({ homes, holidays }: { homes: SearchHome[]; holidays: 
       {/* Home */}
       <div className="relative col-span-2 md:col-span-1">
         <button type="button" id={triggerId("home")} aria-haspopup="dialog" aria-expanded={panel === "home"} onClick={() => toggle("home")} className={field(panel === "home")}>
-          <span className={label}>Home</span>
-          <span className={value(!!home)}>{home ? home.name : `Any of the ${homes.length} homes`}</span>
+          <span className={label}>Property</span>
+          <span className={value(!!home)}>{home ? home.name : `Any of the ${homes.length} properties`}</span>
         </button>
         {panel === "home" && (
-          <div role="dialog" aria-label="Choose a home" style={{ maxHeight: room.max }} className={`${popover} left-0 w-full min-w-[18rem] md:w-[24rem]`}>
+          <div role="dialog" aria-label="Choose a property" style={{ maxHeight: room.max }} className={`${popover} left-0 w-full min-w-[18rem] md:w-[24rem]`}>
             <ul>
-              {[{ slug: "", name: `Any of the ${homes.length} homes`, note: "We suggest the best fit for your group", photo: null as string | null }, ...homes.map((h) => ({ slug: h.slug, name: h.name, note: `Up to ${h.maxGuests} guests, from ${inr(h.nightlyPrice)} a night`, photo: h.coverPhoto }))].map((o) => (
+              {[{ slug: "", name: `Any of the ${homes.length} properties`, note: "We suggest the best fit for your group", photo: null as string | null }, ...homes.map((h) => ({ slug: h.slug, name: h.name, note: `Up to ${h.maxGuests} guests, from ${inr(h.nightlyPrice)} a night`, photo: h.coverPhoto }))].map((o) => (
                 <li key={o.slug || "any"}>
                   <button type="button" onClick={() => chooseHome(o.slug)} aria-pressed={slug === o.slug} className="flex w-full items-center gap-3 rounded-xl p-2 text-left transition hover:bg-stone">
                     {o.photo ? (
@@ -291,7 +291,7 @@ export function SearchBar({ homes, holidays }: { homes: SearchHome[]; holidays: 
               </div>
             ))}
             <p className="mt-2 text-sm text-muted">
-              {home ? `${home.name} sleeps up to ${cap}.` : `Our largest home sleeps up to ${cap}.`} Babies under 2 stay free.
+              {home ? `${home.name} sleeps up to ${cap}.` : `Our largest property sleeps up to ${cap}.`} Babies under 2 stay free.
             </p>
             <button type="button" onClick={() => setPanel(null)} className="mt-3 min-h-11 w-full rounded-[var(--radius-control)] bg-forest text-sm font-semibold text-white transition hover:bg-forest-soft">
               Done

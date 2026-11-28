@@ -22,7 +22,7 @@ const sections = [
   { id: "rules", label: "House rules" },
   { id: "location", label: "Location" },
   { id: "home-reviews", label: "Reviews" },
-  { id: "others", label: "Other homes" },
+  { id: "others", label: "Other properties" },
 ];
 
 export async function generateStaticParams() {
@@ -72,8 +72,8 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
     <article className="mx-auto max-w-site px-4 pb-28 pt-20 sm:px-6 lg:px-8 lg:pb-10 lg:pt-28">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted">
-        {/* "Home / Homes / ..." read as the same word twice, so the trail starts at the list of homes. */}
-        <Link href="/#homes" className="hover:text-forest">Homes</Link> / <span className="text-forest">{home.name}</span>
+        {/* "Home / Properties / ..." read as the same word twice, so the trail starts at the list of homes. */}
+        <Link href="/#homes" className="hover:text-forest">Properties</Link> / <span className="text-forest">{home.name}</span>
       </nav>
       <PhotoTour photos={home.photos} name={home.name} />
 
@@ -128,7 +128,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
           </section>
 
           <section className="mt-14" aria-labelledby="amenities">
-            <h2 id="amenities" className="text-3xl">What the home has</h2>
+            <h2 id="amenities" className="text-3xl">What the property has</h2>
             <div className="mt-6 grid gap-8 sm:grid-cols-2">
               {groups.map(([g, items]) => (
                 <div key={g}>
@@ -165,7 +165,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
           </section>
         </div>
 
-        <aside id="book" className="scroll-mt-40 lg:sticky lg:top-36 lg:self-start xl:top-40" aria-label="Book this home">
+        <aside id="book" className="scroll-mt-40 lg:sticky lg:top-36 lg:self-start xl:top-40" aria-label="Book this property">
           <BookingPanel
             homes={[{ slug: home.slug, name: home.name, maxGuests: home.maxGuests, nightlyPrice: home.nightlyPrice, minNights: home.minNights, coverPhoto: home.coverPhoto }]}
             initialSlug={home.slug}
@@ -174,14 +174,14 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
           />
           {home.airbnbUrl && (
             <p className="mt-3 text-center text-sm text-muted">
-              Prefer Airbnb? <a href={home.airbnbUrl} target="_blank" rel="noopener noreferrer" className="underline">This home is also listed there</a>.
+              Prefer Airbnb? <a href={home.airbnbUrl} target="_blank" rel="noopener noreferrer" className="underline">This property is also listed there</a>.
             </p>
           )}
         </aside>
       </div>
 
       <section className="mt-20" aria-labelledby="others">
-        <h2 id="others" className="text-3xl">The other homes</h2>
+        <h2 id="others" className="text-3xl">The other properties</h2>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
           {others.map((h) => <HomeCard key={h.slug} home={h} />)}
         </div>
@@ -197,7 +197,7 @@ async function HomeContent({ params }: { params: PageProps<"/homes/[slug]">["par
 
 export default function HomePage(props: PageProps<"/homes/[slug]">) {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-site px-4 pt-28 text-muted">Loading the home...</div>}>
+    <Suspense fallback={<div className="mx-auto max-w-site px-4 pt-28 text-muted">Loading the property...</div>}>
       <HomeContent params={props.params} />
     </Suspense>
   );

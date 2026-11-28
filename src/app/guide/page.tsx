@@ -5,7 +5,7 @@ import { getImages, getPlaces } from "@/lib/api";
 import { seasons } from "@/lib/content";
 import { ButtonLink } from "@/components/ui/Button";
 
-export const metadata: Metadata = { title: "Shimla guide", description: "Places to see, walks, day trips and seasons near the FlexiGo Stays homes in Shimla." };
+export const metadata: Metadata = { title: "Shimla guide", description: "Places to see, walks, day trips and seasons near the FlexiGo Stays properties in Shimla." };
 
 const categoryLabel: Record<string, string> = { sight: "Sights", walk: "Walks", "day-trip": "Day trips", cafe: "Cafes", essentials: "Essentials" };
 

@@ -16,7 +16,7 @@ export default function ThankYouPage() {
       <p className="mt-6 text-lg text-muted">The host will call or WhatsApp you to confirm and share the advance payment details. While you wait, plan your days in Shimla.</p>
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <ButtonLink href="/guide">Open the Shimla guide</ButtonLink>
-        <ButtonLink href="/" variant="outline">Back to the homes</ButtonLink>
+        <ButtonLink href="/" variant="outline">Back to the properties</ButtonLink>
       </div>
     </section>
   );

@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: PageProps<"/locations/[slug]"
   if (!data) return { title: "Location not found" };
   const { location, homes } = data;
   return {
-    title: `Holiday homes in ${location.name}`,
-    description: location.description || `${homes.length} holiday homes in ${location.name} by FlexiGo Stays. See live prices and book direct with the host.`,
+    title: `Properties in ${location.name}`,
+    description: location.description || `${homes.length} holiday properties in ${location.name} by FlexiGo Stays. See live prices and book direct with the host.`,
     openGraph: { images: [{ url: location.image }] },
   };
 }
@@ -32,7 +32,7 @@ async function LocationContent({ params }: { params: PageProps<"/locations/[slug
 
 export default function LocationPage(props: PageProps<"/locations/[slug]">) {
   return (
-    <Suspense fallback={<div className="mx-auto max-w-site px-4 pt-28 text-muted">Loading the homes...</div>}>
+    <Suspense fallback={<div className="mx-auto max-w-site px-4 pt-28 text-muted">Loading the properties...</div>}>
       <LocationContent params={props.params} />
     </Suspense>
   );

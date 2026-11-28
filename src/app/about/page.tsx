@@ -17,7 +17,7 @@ export default async function AboutPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pine-dark">About</p>
           <h1 className="mt-3 text-[2rem] sm:text-[2.6rem]">Hosted by people who live in these hills</h1>
           <p className="mt-5 text-lg text-muted">
-            FlexiGo Stays is run by the Flexigo Holidays team, who have planned trips across Himachal for more than ten years. {site.hostName ? `${site.hostName} and the team` : "The team"} look after the three homes and stay close by, so help is never far away.
+            FlexiGo Stays is run by the Flexigo Holidays team, who have planned trips across Himachal for more than ten years. {site.hostName ? `${site.hostName} and the team` : "The team"} look after the three properties and stay close by, so help is never far away.
           </p>
           <p className="mt-4 text-lg text-muted">Need a cab, a day trip or a home-cooked meal? Ask, and we will arrange it with trusted local partners.</p>
           <ButtonLink href={whatsappLink(site.whatsappNumber, "Hi, I have a question about FlexiGo Stays.")} variant="whatsapp" className="mt-8"><WhatsAppIcon size={18} /> Message the host</ButtonLink>

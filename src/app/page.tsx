@@ -51,7 +51,7 @@ export default async function HomePage() {
       <LocationCards locations={locations} />
 
       <section className="mx-auto max-w-site px-4 pt-20 sm:px-6 lg:px-8 lg:pt-28" aria-labelledby="collection-title">
-        <SectionHeading eyebrow="The FlexiGo collection" title="Three homes, one host, all of Shimla" id="collection-title">
+        <SectionHeading eyebrow="The FlexiGo collection" title="Three properties, one host, all of Shimla" id="collection-title">
           Browse each home, then plan your days with our Shimla guide and the Flexigo Holidays team.
         </SectionHeading>
         <div className="mt-10">
@@ -91,7 +91,7 @@ export default async function HomePage() {
       </section>
 
       <section id="homes" className="mx-auto max-w-site scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8 lg:py-28" aria-labelledby="homes-title">
-        <SectionHeading eyebrow="Homes" title="Choose your home and see prices" id="homes-title">
+        <SectionHeading eyebrow="Properties" title="Choose your property and see prices" id="homes-title">
           Each home is fully equipped and looked after by a team that stays close by.
         </SectionHeading>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -100,7 +100,7 @@ export default async function HomePage() {
           ))}
         </div>
         <div className="mt-8">
-          <Link href="/compare" className="text-sm font-semibold text-pine-dark underline underline-offset-4">Compare the three homes side by side</Link>
+          <Link href="/compare" className="text-sm font-semibold text-pine-dark underline underline-offset-4">Compare the three properties side by side</Link>
         </div>
       </section>
 
@@ -109,14 +109,14 @@ export default async function HomePage() {
       <section className="bg-forest py-20 text-[#c9d2cc] lg:py-28" aria-labelledby="types-title">
         <div className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pine">Good for</p>
-          <h2 id="types-title" data-reveal className="mt-3 max-w-2xl text-4xl text-white sm:text-5xl">A home that fits how you travel</h2>
+          <h2 id="types-title" data-reveal className="mt-3 max-w-2xl text-4xl text-white sm:text-5xl">A property that fits how you travel</h2>
           <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {stayTypes.map((s) => (
               <li key={s.type} data-reveal>
                 <Link href={`/stays/${s.slug}`} className="group flex h-full flex-col rounded-card border border-white/15 p-6 transition-colors hover:bg-white/5">
                   <h3 className="text-2xl text-white">{s.title}</h3>
                   <p className="mt-3 flex-1 text-[#c9d2cc]">{s.text}</p>
-                  <span className="mt-6 text-sm font-semibold text-pine group-hover:underline">See matching homes</span>
+                  <span className="mt-6 text-sm font-semibold text-pine group-hover:underline">See matching properties</span>
                 </Link>
               </li>
             ))}

@@ -18,7 +18,7 @@ export default async function PrivacyPolicyPage() {
       title: "Who we are",
       body: (
         <p>
-          FlexiGo Stays runs three holiday homes in Shimla, Himachal Pradesh, and is part of Flexigo Holidays. In this policy, &ldquo;we&rdquo; means FlexiGo Stays. This policy explains how we
+          FlexiGo Stays runs three holiday properties in Shimla, Himachal Pradesh, and is part of Flexigo Holidays. In this policy, &ldquo;we&rdquo; means FlexiGo Stays. This policy explains how we
           handle personal data you share through this website, on WhatsApp, by phone or email, and when you stay with us.
         </p>
       ),
@@ -30,7 +30,7 @@ export default async function PrivacyPolicyPage() {
         <>
           <p>We only collect what we need to answer you and look after your stay:</p>
           <ul>
-            <li><strong>When you request dates:</strong> your name, email, phone number, the home, your dates, the number of adults and children, and any message you add.</li>
+            <li><strong>When you request dates:</strong> your name, email, phone number, the property, your dates, the number of adults and children, and any message you add.</li>
             <li><strong>When you message or call us:</strong> your number and what you tell us.</li>
             <li><strong>When you check in:</strong> a government photo ID for each adult guest, as the law requires for guest registers. Guests from outside India also share passport and visa details.</li>
             <li><strong>When you use the website:</strong> our server sees your IP address and browser type, briefly, to protect the booking form from spam and abuse.</li>

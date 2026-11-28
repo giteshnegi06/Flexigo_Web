@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 // CONFIRM with the client before launch: the refund tiers (section 3), the free date change (section 4)
-// and the refund timeline (section 7). These are typical terms for holiday homes in India, not yet approved.
+// and the refund timeline (section 7). These are typical terms for holiday properties in India, not yet approved.
 export default async function CancellationPolicyPage() {
   const site = await getSite();
   const tiers = [
@@ -23,7 +23,7 @@ export default async function CancellationPolicyPage() {
       title: "When a booking is confirmed",
       body: (
         <p>
-          Sending a request on this website does not book the home. The host first confirms your dates, then your booking is confirmed once you pay the advance of {site.advancePercent}% of the
+          Sending a request on this website does not book the property. The host first confirms your dates, then your booking is confirmed once you pay the advance of {site.advancePercent}% of the
           total. The rest is paid at or before check-in. Until the advance is paid, the dates are not held for you.
         </p>
       ),
@@ -71,7 +71,7 @@ export default async function CancellationPolicyPage() {
       title: "Changing your dates instead",
       body: (
         <p>
-          If you tell us at least 7 days before check-in, you can move your stay once, at no charge, to other dates within 6 months, as long as the home is free. If the new dates cost more,
+          If you tell us at least 7 days before check-in, you can move your stay once, at no charge, to other dates within 6 months, as long as the property is free. If the new dates cost more,
           for example over a holiday weekend, you pay the difference.
         </p>
       ),
@@ -86,9 +86,9 @@ export default async function CancellationPolicyPage() {
       title: "If we have to cancel",
       body: (
         <>
-          <p>If we ever cannot host you, for example because of a serious problem at the home, we will offer you another FlexiGo home for the same dates if one is free, or refund everything you paid.</p>
+          <p>If we ever cannot host you, for example because of a serious problem at the property, we will offer you another FlexiGo property for the same dates if one is free, or refund everything you paid.</p>
           <p>
-            Shimla&rsquo;s roads sometimes close for snow or landslides. If an official road closure or travel ban stops you reaching the home, tell us as soon as you can and we will move your dates
+            Shimla&rsquo;s roads sometimes close for snow or landslides. If an official road closure or travel ban stops you reaching the property, tell us as soon as you can and we will move your dates
             at no charge.
           </p>
         </>

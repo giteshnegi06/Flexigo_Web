@@ -6,7 +6,7 @@ import { getHomes } from "@/lib/api";
 import { guestTypeLabel, inr } from "@/lib/format";
 import { ButtonLink } from "@/components/ui/Button";
 
-export const metadata: Metadata = { title: "Compare the homes", description: "White Breeze 2BHK, The Cloud Villa and White Breeze 3BHK side by side: guests, bedrooms, views and prices." };
+export const metadata: Metadata = { title: "Compare the properties", description: "White Breeze 2BHK, The Cloud Villa and White Breeze 3BHK side by side: guests, bedrooms, views and prices." };
 
 export default async function ComparePage() {
   const homes = await getHomes();
@@ -25,15 +25,15 @@ export default async function ComparePage() {
   return (
     <section className="mx-auto max-w-site px-4 pb-10 pt-24 sm:px-6 lg:px-8 lg:pt-32">
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pine-dark">Compare</p>
-      <h1 className="mt-3 text-[2rem] sm:text-[2.6rem]">The three homes side by side</h1>
-      <p className="mt-4 max-w-2xl text-lg text-muted">Swipe the table on a phone to see every home.</p>
+      <h1 className="mt-3 text-[2rem] sm:text-[2.6rem]">The three properties side by side</h1>
+      <p className="mt-4 max-w-2xl text-lg text-muted">Swipe the table on a phone to see every property.</p>
 
       <div className="mt-10 overflow-x-auto rounded-card bg-card shadow-soft">
         <table className="w-full min-w-[720px] border-collapse text-left">
-          <caption className="sr-only">Comparison of the three homes</caption>
+          <caption className="sr-only">Comparison of the three properties</caption>
           <thead>
             <tr>
-              <th scope="col" className="w-48 p-5 align-bottom text-sm font-semibold text-muted">Home</th>
+              <th scope="col" className="w-48 p-5 align-bottom text-sm font-semibold text-muted">Property</th>
               {homes.map((h) => (
                 <th key={h.slug} scope="col" className="p-5 align-bottom">
                   <div className="relative mb-3 aspect-[4/3] overflow-hidden rounded-xl">

@@ -15,11 +15,11 @@ export function HomeField({ homes, value, onChange }: { homes: HomeChoice[]; val
   return (
     <div ref={ref} className="relative">
       <button ref={trigger} type="button" aria-haspopup="dialog" aria-expanded={open} onClick={() => (open ? hide() : show())} className={pill.field(open)}>
-        <span className={pill.label}>Home</span>
-        <span className={pill.value}>{home?.name ?? "Choose a home"}</span>
+        <span className={pill.label}>Property</span>
+        <span className={pill.value}>{home?.name ?? "Choose a property"}</span>
       </button>
       {open && (
-        <div role="dialog" aria-label="Choose a home" style={{ maxHeight: room.max }} className={pill.panel(room.up)}>
+        <div role="dialog" aria-label="Choose a property" style={{ maxHeight: room.max }} className={pill.panel(room.up)}>
           <ul>
             {homes.map((h) => (
               <li key={h.slug}>

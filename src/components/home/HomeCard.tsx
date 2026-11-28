@@ -27,7 +27,7 @@ export function HomeCard({ home, priority = false }: { home: Home; priority?: bo
             <span className="text-xl font-semibold text-ink">{inr(home.nightlyPrice)}</span>
             <span className="text-sm text-muted"> / night</span>
             {discounted && <span className="ml-2 text-sm text-muted line-through">{inr(home.compareAtPrice!)}</span>}
-            <span className="block pt-0.5 text-xs text-muted">+ taxes, whole home</span>
+            <span className="block pt-0.5 text-xs text-muted">+ taxes, whole property</span>
           </p>
           <span className="rounded-[var(--radius-control)] border border-line px-3.5 py-2 text-sm font-semibold text-forest transition-colors duration-300 group-hover:border-forest group-hover:bg-forest group-hover:text-white">View</span>
         </div>

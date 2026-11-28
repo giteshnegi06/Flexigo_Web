@@ -14,8 +14,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "FlexiGo Stays | Holiday homes in Shimla", template: "%s | FlexiGo Stays" },
-  description: "Three calm, fully equipped holiday homes in a gated community above Shimla. See live prices and book direct with the host.",
+  title: { default: "FlexiGo Stays | Holiday properties in Shimla", template: "%s | FlexiGo Stays" },
+  description: "Three calm, fully equipped holiday properties in a gated community above Shimla. See live prices and book direct with the host.",
   openGraph: { type: "website", siteName: "FlexiGo Stays", locale: "en_IN" },
 };
 

@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import { buttonClass } from "../ui/Button";
 
 const links = [
-  { href: "/#homes", label: "Homes" },
+  { href: "/#homes", label: "Properties" },
   { href: "/compare", label: "Compare" },
   { href: "/guide", label: "Shimla guide" },
   { href: "/stays/families", label: "Stay types" },

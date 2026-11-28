@@ -25,9 +25,9 @@ export const seasons = [
 ];
 
 export const faqs = [
-  { q: "How far are the homes from Mall Road?", a: "Guests usually reach Mall Road and the Ridge in about 25 to 30 minutes by car. The homes are in a quiet gated community away from the crowds." },
-  { q: "What are the check-in and check-out times?", a: "Check-in is from 1 pm and check-out is by 11 am. Early check-in or late check-out can be arranged when the home is free." },
-  { q: "Is food available?", a: "Each home has a fully equipped kitchen. The host can also arrange home-cooked meals or help you order in." },
-  { q: "Are the homes warm in winter?", a: "Yes. Every home has room heaters, geysers and warm bedding, and power backup keeps them running." },
-  { q: "Can I book directly instead of on Airbnb?", a: "Yes. Choose your dates on this website to see the total price, then send a request or pay an advance. The homes are also listed on Airbnb." },
+  { q: "How far are the properties from Mall Road?", a: "Guests usually reach Mall Road and the Ridge in about 25 to 30 minutes by car. The properties are in a quiet gated community away from the crowds." },
+  { q: "What are the check-in and check-out times?", a: "Check-in is from 1 pm and check-out is by 11 am. Early check-in or late check-out can be arranged when the property is free." },
+  { q: "Is food available?", a: "Each property has a fully equipped kitchen. The host can also arrange home-cooked meals or help you order in." },
+  { q: "Are the properties warm in winter?", a: "Yes. Every property has room heaters, geysers and warm bedding, and power backup keeps them running." },
+  { q: "Can I book directly instead of on Airbnb?", a: "Yes. Choose your dates on this website to see the total price, then send a request or pay an advance. The properties are also listed on Airbnb." },
 ];

@@ -49,7 +49,7 @@ export function LocationListing({ location, homes }: { location: Omit<Location, 
   }, [homes, filters, sort]);
 
   const active = filters.min > floor || filters.max < ceil || filters.types.length + filters.bedrooms.length > 0;
-  const noun = (n: number) => `${n} ${n === 1 ? "home" : "homes"}`;
+  const noun = (n: number) => `${n} ${n === 1 ? "property" : "properties"}`;
   const panel = <FilterPanel filters={filters} setFilters={setFilters} floor={floor} ceil={ceil} bedroomOptions={bedroomOptions} onClear={() => setFilters(none)} active={active} />;
 
   return (
@@ -64,7 +64,7 @@ export function LocationListing({ location, homes }: { location: Omit<Location, 
 
         <div className="min-w-0">
           <header className="rounded-card border border-line bg-card p-5 sm:p-6">
-            <h1 className="text-[1.9rem] sm:text-[2.3rem]">Homes in {location.name}</h1>
+            <h1 className="text-[1.9rem] sm:text-[2.3rem]">Properties in {location.name}</h1>
             {location.description && <p className="mt-1.5 max-w-3xl text-muted">{location.description}</p>}
           </header>
 
@@ -93,7 +93,7 @@ export function LocationListing({ location, homes }: { location: Omit<Location, 
             </ul>
           ) : (
             <div className="mt-5 rounded-card border border-dashed border-line p-10 text-center">
-              <p className="font-semibold text-forest">{homes.length ? "No homes match these filters." : `Homes in ${location.name} are coming soon.`}</p>
+              <p className="font-semibold text-forest">{homes.length ? "No properties match these filters." : `Properties in ${location.name} are coming soon.`}</p>
               {homes.length > 0 && <button type="button" onClick={() => setFilters(none)} className="mt-3 min-h-11 font-semibold text-forest underline underline-offset-4">Clear all filters</button>}
             </div>
           )}
@@ -120,7 +120,7 @@ function FilterPanel({ filters, setFilters, floor, ceil, bedroomOptions, onClear
       {ceil > floor && (
         <section className="border-b border-line pb-6 pt-4" aria-labelledby="f-price">
           <h2 id="f-price" className="font-sans text-base font-semibold tracking-normal text-ink">Price per night</h2>
-          <p className="text-sm text-muted">Before taxes, whole home</p>
+          <p className="text-sm text-muted">Before taxes, whole property</p>
           <p className="mt-3 font-semibold text-ink">{inr(filters.min)} to {inr(filters.max)}</p>
           <div className="relative mt-3 h-6">
             <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-line" />
@@ -132,7 +132,7 @@ function FilterPanel({ filters, setFilters, floor, ceil, bedroomOptions, onClear
       )}
 
       <section className="border-b border-line py-6" aria-labelledby="f-type">
-        <h2 id="f-type" className="font-sans text-base font-semibold tracking-normal text-ink">Home type</h2>
+        <h2 id="f-type" className="font-sans text-base font-semibold tracking-normal text-ink">Property type</h2>
         <div className="mt-3 grid grid-cols-2 gap-3">
           {types.map(({ value, label, icon: Icon }) => {
             const on = filters.types.includes(value);

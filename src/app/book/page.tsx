@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { getHolidays, getHomes, getSite } from "@/lib/api";
 import { BookFromSearch } from "./BookFromSearch";
 
-export const metadata: Metadata = { title: "Check availability", description: "See live prices for the three FlexiGo Stays homes and request your dates." };
+export const metadata: Metadata = { title: "Check availability", description: "See live prices for the three FlexiGo Stays properties and request your dates." };
 
 async function BookContent() {
   const [homes, site, holidays] = await Promise.all([getHomes(), getSite(), getHolidays()]);
@@ -21,7 +21,7 @@ export default function BookPage() {
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pine-dark">Book direct</p>
         <h1 className="mt-3 text-[2rem] sm:text-[2.6rem]">Choose your dates</h1>
-        <p className="mt-4 max-w-xl text-lg text-muted">Pick a home, your dates and the number of guests to see the full price at once. Send a request and the host confirms the dates with you; nothing is charged until then.</p>
+        <p className="mt-4 max-w-xl text-lg text-muted">Pick a property, your dates and the number of guests to see the full price at once. Send a request and the host confirms the dates with you; nothing is charged until then.</p>
         <ol className="mt-10 space-y-6">
           {[
             ["1", "See the total", "Nightly prices, taxes and the advance are shown before you share any details."],
