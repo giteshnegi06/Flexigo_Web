@@ -1,5 +1,13 @@
 // The only file that talks to the backend. Server reads are cached; quotes and enquiries are always live.
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
+
+// Everything read from the API carries this tag. Saving in the admin calls /api/revalidate, which expires it,
+// so the next visit shows the change. Without that call, data is still refreshed within about a minute.
+export const CONTENT_TAG = "content";
+const fresh = () => {
+  cacheTag(CONTENT_TAG);
+  cacheLife({ stale: 30, revalidate: 60, expire: 86400 });
+};
 import type { Holiday, HomeCard, HomeDetail, Location, LocationHome, Place, Review, SiteImages, SiteInfo } from "./types";
 
 // Trailing slashes are removed, so "https://api.example/" does not produce "//api/..." URLs (Vercel redirects those).
@@ -41,13 +49,13 @@ async function get<T>(path: string): Promise<T> {
 
 export async function getHomes(): Promise<HomeCard[]> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  fresh();
   return get<HomeCard[]>("/homes");
 }
 
 export async function getHome(slug: string): Promise<HomeDetail | null> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  fresh();
   const res = await call(`/homes/${encodeURIComponent(slug)}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`API /homes/${slug} failed with ${res.status}`);
@@ -56,33 +64,33 @@ export async function getHome(slug: string): Promise<HomeDetail | null> {
 
 export async function getReviews(): Promise<Review[]> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+  fresh();
   return get<Review[]>("/reviews");
 }
 
 export async function getPlaces(): Promise<Place[]> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+  fresh();
   return get<Place[]>("/places");
 }
 
 export async function getSite(): Promise<SiteInfo> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+  fresh();
   return get<SiteInfo>("/site");
 }
 
 /** Holidays for the date picker, from today for about a year. The browser hides any that have passed. */
 export async function getHolidays(): Promise<Holiday[]> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 3600, expire: 86400 });
+  fresh();
   return get<Holiday[]>("/holidays");
 }
 
 /** Every website image that is not a home photo, keyed for lookup. Changed from the admin panel. */
 export async function getImages(): Promise<SiteImages> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  fresh();
   const rows = await get<{ key: string; url: string; alt: string }[]>("/images");
   return Object.fromEntries(rows.map(({ key, url, alt }) => [key, { url, alt }]));
 }
@@ -90,14 +98,14 @@ export async function getImages(): Promise<SiteImages> {
 /** Location cards for the home page, with how many homes each has. */
 export async function getLocations(): Promise<Location[]> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  fresh();
   return get<Location[]>("/locations");
 }
 
 /** One location and its homes, or null when there is no such location. */
 export async function getLocation(slug: string): Promise<{ location: Omit<Location, "homeCount">; homes: LocationHome[] } | null> {
   "use cache";
-  cacheLife({ stale: 300, revalidate: 600, expire: 86400 });
+  fresh();
   const res = await call(`/locations/${encodeURIComponent(slug)}`);
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`API /locations/${slug} failed with ${res.status}`);
